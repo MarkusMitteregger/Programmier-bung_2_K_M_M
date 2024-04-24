@@ -1,5 +1,6 @@
 import streamlit as st
 import read_data # Ergänzen Ihr eigenes Modul
+from PIL import Image
 
 # Eine Überschrift der ersten Ebene
 st.write("# EKG APP")
@@ -19,39 +20,8 @@ st.session_state.current_user = st.selectbox(
     'Versuchsperson',
     options = person_names, key="sbVersuchsperson")
 
-
-
-from PIL import Image
-# Laden eines Bilds
-image = Image.open("../data/pictures/js.jpg")
-# Anzeigen eines Bilds mit Caption
-st.image(image, caption=st.session_state.current_user)
-
-
-
-def find_person_data_by_name(suchstring):
-    """ Eine Funktion der Nachname, Vorname als ein String übergeben wird
-    und die die Person als Dictionary zurück gibt"""
-
-    person_data = load_person_data()
-    #print(suchstring)
-    if suchstring == "None":
-        return {}
-
-    two_names = suchstring.split(", ")
-    vorname = two_names[1]
-    nachname = two_names[0]
-
-    for eintrag in person_data:
-        print(eintrag)
-        if (eintrag["lastname"] == nachname and eintrag["firstname"] == vorname):
-            print()
-
-            return eintrag
-    else:
-        return {}
     
-    # Anlegen des Session State. Bild, wenn es kein Bild gibt
+# Anlegen des Session State. Bild, wenn es kein Bild gibt
 if 'picture_path' not in st.session_state:
     st.session_state.picture_path = 'data/pictures/none.jpg'
 
