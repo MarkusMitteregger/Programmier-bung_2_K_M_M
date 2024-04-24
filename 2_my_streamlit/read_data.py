@@ -22,3 +22,42 @@ def get_person_list(person_data):
         list_of_names.append(eintrag["lastname"] + ", " +  eintrag["firstname"])
     return list_of_names
 
+
+
+suchstring  = "Huber, Julian"
+
+# Teilt einen String in und speichert die Ergebnisse in einer Liste
+two_names = suchstring.split(", ")
+vorname = two_names[1]
+nachname = two_names[0]
+
+person_data = load_person_data()
+
+# Nun können wir vergleichen bis wir einen Treffer finden
+for eintrag in person_data:
+    if (eintrag["lastname"] == nachname and eintrag["firstname"] == vorname):
+        print(eintrag)
+
+
+def find_person_data_by_name(suchstring):
+    """ Eine Funktion der Nachname, Vorname als ein String übergeben wird
+    und die die Person als Dictionary zurück gibt"""
+
+    person_data = load_person_data()
+    #print(suchstring)
+    if suchstring == "None":
+        return {}
+
+    two_names = suchstring.split(", ")
+    vorname = two_names[1]
+    nachname = two_names[0]
+
+    for eintrag in person_data:
+        print(eintrag)
+        if (eintrag["lastname"] == nachname and eintrag["firstname"] == vorname):
+            print()
+
+            return eintrag
+    else:
+        return {}
+    
