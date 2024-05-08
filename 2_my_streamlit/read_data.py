@@ -1,4 +1,3 @@
-User
 import json
 
 def load_person_data():
