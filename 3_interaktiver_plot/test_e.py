@@ -21,7 +21,10 @@ def analyze_heart_rate(df, max_hr):
     df['HeartRateZone'] = df['HeartRate'].apply(lambda x: get_heart_rate_zone(x, max_hr))
 
     # Zeit in den Herzfrequenzzonen berechnen
-    time_in_zones = df.groupby('HeartRateZone')['Duration'].count()
+    time_in_zones = df.groupby('HeartRateZone')['Duration'].sum()
+
+    # Dauer in mm:ss formatieren
+    time_in_zones = time_in_zones.apply(lambda x: '{:02}:{:02}'.format(int(x) // 60, int(x) % 60))
 
     return time_in_zones
 
@@ -37,12 +40,14 @@ def main():
     st.title('Herzfrequenzanalyse')
 
     # Laden der Daten
-    dateipfad = "C:\\Users\\elisa\\Desktop\\MCI\\MGST_SS_2324(2)\\Programmierübung II\\pandas\\3_pandas\\EGK_App\\data\\activities\\activity.csv"
+    dateipfad = (
+        "C:\\Users\\elisa\\Desktop\\MCI\\MGST_SS_2324(2)\\"
+        "Programmierübung II\\pandas\\3_pandas\\EGK_App\\data\\activities\\activity.csv"
+    )
     df = pd.read_csv(dateipfad)
 
     # Maximale Herzfrequenz eingeben
     max_hr = st.sidebar.number_input("Bitte geben Sie die maximale Herzfrequenz ein:", value=0, step=1)
-
 
     # Analyse durchführen, wenn der Button gedrückt wird
     analyze_button = st.sidebar.button("Analyse durchführen")
@@ -55,19 +60,14 @@ def main():
         avg_performance_in_zones = analyze_performance(df)
 
         # Ergebnisse anzeigen
-        st.subheader('Zeit in den Herzfrequenzzonen:')
+        st.subheader('Zeit in den Herzfrequenzzonen (mm:ss):')
         st.write(time_in_zones)
         st.subheader('Durchschnittliche Leistung in den Herzfrequenzzonen:')
         st.write(avg_performance_in_zones)
 
-    
-
     # Zeitreihenplot erstellen
-   
     fig = px.line(df, x=df.index, y=['PowerOriginal', 'HeartRate'], title="Leistung über die Zeit", labels={"Duration": "Zeit [s]", "PowerOriginal": "Leistung [W]"})
     st.plotly_chart(fig)
-
-
 
 if __name__ == "__main__":
     main()
