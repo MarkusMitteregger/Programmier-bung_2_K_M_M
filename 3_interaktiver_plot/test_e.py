@@ -33,7 +33,11 @@ def analyze_performance(df):
     # Durchschnittliche Leistung in den Herzfrequenzzonen berechnen
     avg_performance_in_zones = df.groupby('HeartRateZone')['PowerOriginal'].mean()
 
+    # Runden und in ganze Zahlen umwandeln
+    avg_performance_in_zones = avg_performance_in_zones.round().astype(int)
+
     return avg_performance_in_zones
+
 
 # Streamlit App
 def main():
@@ -59,15 +63,34 @@ def main():
         # Analyse der Leistung durchführen
         avg_performance_in_zones = analyze_performance(df)
 
+        avg_performance_generel = df['PowerOriginal'].mean().round().astype(int)
+        max_performance_generel = df['PowerOriginal'].max().round().astype(int)
+
+    
+
+
         # Ergebnisse anzeigen
-        st.subheader('Zeit in den Herzfrequenzzonen (mm:ss):')
+        st.subheader('Zeit in HF-Zonen (in mm˸ss):')
         st.write(time_in_zones)
-        st.subheader('Durchschnittliche Leistung in den Herzfrequenzzonen:')
+        st.subheader('Durchschnittliche Leistung in den Herzfrequenzzonen (in Watt):')
         st.write(avg_performance_in_zones)
+        st.subheader('Durchschnittliche Leistung gesamt (in Watt):')
+        st.write(avg_performance_generel)
+        st.subheader('Maximale Leistung (in Watt):')
+        st.write(max_performance_generel)
+
+
+    time = df.index/60
+
+    
 
     # Zeitreihenplot erstellen
-    fig = px.line(df, x=df.index, y=['PowerOriginal', 'HeartRate'], title="Leistung über die Zeit", labels={"Duration": "Zeit [s]", "PowerOriginal": "Leistung [W]"})
+    fig = px.line(df, x=time, y=['PowerOriginal', 'HeartRate'], title="Leistung und HF über die Zeit", labels={"Duration": "Zeit [min]", "PowerOriginal": "Leistung [W]"})
+
+    fig.update_xaxes(title_text='Dauer [min]')
+    fig.update_yaxes(title_text='Herzfrequenz [bpm], Leistung [W]')
     st.plotly_chart(fig)
+
 
 if __name__ == "__main__":
     main()
