@@ -91,6 +91,11 @@ def main():
     fig.update_yaxes(title_text='Herzfrequenz [bpm], Leistung [W]')
     st.plotly_chart(fig)
 
+    # Schieberegler Befinden
+
+    mood = st.slider("Wie war dein Befinden?", 0, 10, 5)
+    st.write("Ich habe mich während der Aktivität", mood, "gefühlt. 0 = schlecht, 10 = super")
+
 
 if __name__ == "__main__":
     main()
