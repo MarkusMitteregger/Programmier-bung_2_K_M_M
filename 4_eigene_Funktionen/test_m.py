@@ -3,21 +3,19 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def find_peaks(ekg_data):
-    def find_peaks(series, threshold, respacing_factor=5):
-    """
-    A function to find the peaks in a series
-    Args:
-        - series (pd.Series): The series to find the peaks in
-        - threshold (float): The threshold for the peaks
-        - respacing_factor (int): The factor to respace the series
-    Returns:
-        - peaks (list): A list of the indices of the peaks
-    """
-    # Respace the series
+
+def find_peaks(series, threshold, respacing_factor=5):
+    """ A function to find the peaks in a series
+Args:
+    - series (pd.Series): The series to find the peaks in
+    - threshold (float): The threshold for the peaks
+    - respacing_factor (int): The factor to respace the series
+Returns:
+    - peaks (list): A list of the indices of the peaks"""
+# Respace the series
     series = series.iloc[::respacing_factor]
-    
-    # Filter the series
+
+# Filter the series
     series = series[series>threshold]
 
 
@@ -45,7 +43,7 @@ def ekg_read_txt():
 
 #Funktion zum einlesen der Activity Daten
 def activity_read_csv():
-    df = pd.read_csv("data/activities/activity.csv", sep = ",")
+    df = pd.read_csv("C:\\Users\\elisa\\Desktop\\MCI\\MGST_SS_2324(2)\\Programmierübung II\\Programmieren3\\Programmieruebung_2_K_M_M\\data\\activities\\activity.csv", sep = ",")
     return df
 
 
@@ -66,7 +64,7 @@ def best_effort(df, window):
     return value.max()
 
 
-ekg_df = ekg_read_txt()
+#ekg_df = ekg_read_txt()
 activity_df = activity_read_csv()
 #print(ekg_df)
 
@@ -74,7 +72,7 @@ activity_df = activity_read_csv()
 #plt.show()
 
 power_curve = calc_powercurve(activity_df)
-plt.plot(power_curve["Time_Window"], power_curve["Power"])
-plt.show()
+#plt.plot(power_curve["Time_Window"], power_curve["Power"])
+#plt.show()
 
 #best_effort(activity_df, 5)
