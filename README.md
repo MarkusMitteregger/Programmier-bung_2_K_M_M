@@ -26,4 +26,4 @@
     In der App links oben Eingabefenster für die maximale Herzfrequenz und der Button "Analyse starten" zum Starten 
     Die App zeigt dann: * Tabellen Zeit in HF-Zonen, durchscnittliche Leistung in den HF-Zonen
                         * durchschnittliche Leistung gesamt und die maximale Leistung
-                        * Diagramm Leistung über die Zeit
+                        * Diagram Leistung über die Zeit
