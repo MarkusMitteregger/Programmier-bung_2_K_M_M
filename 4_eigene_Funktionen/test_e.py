@@ -22,7 +22,7 @@ powercurve = tm.calc_powercurve(df)
 powercurve['Time_Window_mmss'] = powercurve['Time_Window'].apply(seconds_to_mmss)
 
 # Definieren der gewünschten Zeitpunkte in Sekunden
-desired_times = [1, 5, 30, 60, 300, 1200]
+desired_times = [1, 30, 60, 100, 300, 600, 1200]
 
 # Zeitpunkte in mm:ss Format konvertieren
 xticks_mmss = [seconds_to_mmss(t) for t in desired_times]
@@ -54,7 +54,7 @@ fig.update_layout(
         tickmode='array',
         tickvals=xticks_mmss,
         #ticktext=xticks_mmss,
-        tickangle=-90  # Winkel der x-Achsen-Beschriftungen, um Überlappung zu vermeiden
+        tickangle=-45  # Winkel der x-Achsen-Beschriftungen, um Überlappung zu vermeiden
     )
 )
 
