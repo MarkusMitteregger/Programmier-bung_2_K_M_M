@@ -46,7 +46,7 @@ def main():
         avg_performance_generel = df['PowerOriginal'].mean().round().astype(int)
         max_performance_generel = df['PowerOriginal'].max().round().astype(int)
 
-        st.subheader('Zeit in HF-Zonen (in mm:ss):')
+        st.subheader('Zeit in HF-Zonen (in mm˸ss):')
         st.write(time_in_zones)
         st.subheader('Durchschnittliche Leistung in den Herzfrequenzzonen (in Watt):')
         st.write(avg_performance_in_zones)
