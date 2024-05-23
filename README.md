@@ -29,6 +29,8 @@ Die App zeigt dann:
 * durchschnittliche Leistung gesamt und die maximale Leistung
 * Diagram Leistung über die Zeit
 
+![Screenshot](data/screenshots/3_1.jpg)
+
 ### Verwendung des Codes 4_eigene_Funktionen
 
     Navigieren in den richtigen Ordner cd "4_eigene_Funktionen"
