@@ -2,9 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-
-def find_peaks(ekg_data):
-    def find_peaks(series, threshold, respacing_factor=5):
+def find_peaks(series, threshold, respacing_factor=5):
     """
     A function to find the peaks in a series
     Args:
@@ -35,6 +33,7 @@ def find_peaks(ekg_data):
             peaks.append(index-respacing_factor)
 
     return peaks
+
 
 
 #Funktion zum einlesen der EKG-Daten
