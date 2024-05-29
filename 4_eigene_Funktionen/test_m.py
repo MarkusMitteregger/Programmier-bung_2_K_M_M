@@ -15,7 +15,7 @@ def find_peaks(series, threshold, respacing_factor=5):
     # Respace the series
     series = series.iloc[::respacing_factor]
 
-# Filter the series
+    # Filter the series
     series = series[series>threshold]
 
 
