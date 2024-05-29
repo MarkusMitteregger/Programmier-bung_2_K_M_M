@@ -44,7 +44,7 @@ def ekg_read_txt():
 
 #Funktion zum einlesen der Activity Daten
 def activity_read_csv():
-    df = pd.read_csv("data/activities/activity.csv", sep = ",")
+    df = pd.read_csv("data/activities/activity.csv")
     return df
 
 
