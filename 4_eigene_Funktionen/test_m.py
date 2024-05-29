@@ -44,7 +44,7 @@ def ekg_read_txt():
 
 #Funktion zum einlesen der Activity Daten
 def activity_read_csv():
-    df = pd.read_csv("C:\\Users\\elisa\\Desktop\\MCI\\MGST_SS_2324(2)\\Programmierübung II\\Programmieren3\\Programmieruebung_2_K_M_M\\data\\activities\\activity.csv", sep = ",")
+    df = pd.read_csv("data/activities/activity.csv", sep = ",")
     return df
 
 
@@ -73,7 +73,6 @@ activity_df = activity_read_csv()
 #plt.show()
 
 power_curve = calc_powercurve(activity_df)
-#plt.plot(power_curve["Time_Window"], power_curve["Power"])
-#plt.show()
+plt.plot(power_curve["Time_Window"], power_curve["Power"])
+plt.show()
 
-#best_effort(activity_df, 5)
