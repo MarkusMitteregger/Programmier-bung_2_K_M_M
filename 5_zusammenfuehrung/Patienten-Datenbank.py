@@ -3,7 +3,7 @@ import read_data # Ergänzen Sie Ihr eigenes Modul
 from PIL import Image
 
 # Eine Überschrift der ersten Ebene
-st.write("# EKG APP")
+st.write("# PATIENTEN-DATENBANK")
 
 # Eine Überschrift der zweiten Ebene
 st.write("## Versuchsperson auswählen")
@@ -34,8 +34,13 @@ if st.session_state.current_user in person_names:
 # ...
 
 # Öffne das Bild und Zeige es an
-image = Image.open("../" + st.session_state.picture_path)
+image = Image.open(st.session_state.picture_path)
 st.image(image, caption=st.session_state.current_user)
+
+
+
+
+
 
 
 
