@@ -32,7 +32,7 @@ def analyze_performance(df):
 # Streamlit App
 def main():
     st.title('Herzfrequenzanalyse')
-    dateipfad = ("data/activities/activity.csv", sep = ",")
+    dateipfad = ("data/activities/activity.csv")
 
     df = pd.read_csv(dateipfad)
     max_hr = st.sidebar.number_input("Bitte geben Sie die maximale Herzfrequenz ein:", value=0, step=1)
