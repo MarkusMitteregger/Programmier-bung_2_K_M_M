@@ -11,7 +11,7 @@ def ekg_read_txt():
 
 #Funktion zum einlesen der Activity Daten
 def activity_read_csv():
-    df = pd.read_csv("data/activities/activity.csv", sep = ",")
+    df = pd.read_csv("data/activities/activity.csv")
     return df
 
 #Zonen einteilung der Herzfrequenz
@@ -46,7 +46,6 @@ ekg_frame = ekg_read_txt()
 activity_frame = activity_read_csv()
 
 print(activity_frame.PowerOriginal.mean()) # --> keine eigene Funktion dafür nötig eig
-print(max_power(activity_frame.PowerOriginal))
 print(activity_frame.PowerOriginal.max())
 #print(activity_frame.HeartRate)
 activity_frame = heartrate_zones(activity_frame, 200)
