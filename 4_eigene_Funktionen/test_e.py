@@ -10,7 +10,7 @@ def seconds_to_mmss(seconds):
     return f"{minutes:02d}:{seconds:02d}"
 
 # Datei-Pfad
-file_path = ("data/activities/activity.csv", sep = ',')	
+file_path = ("data/activities/activity.csv")	
 # Leistungsdaten laden
 df = pd.read_csv(file_path)
 
