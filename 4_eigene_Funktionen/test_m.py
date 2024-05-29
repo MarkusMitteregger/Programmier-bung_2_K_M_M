@@ -14,8 +14,8 @@ def find_peaks(series, threshold, respacing_factor=5):
     """
     # Respace the series
     series = series.iloc[::respacing_factor]
-    
-    # Filter the series
+
+# Filter the series
     series = series[series>threshold]
 
 
@@ -44,7 +44,7 @@ def ekg_read_txt():
 
 #Funktion zum einlesen der Activity Daten
 def activity_read_csv():
-    df = pd.read_csv("data/activities/activity.csv", sep = ",")
+    df = pd.read_csv("C:\\Users\\elisa\\Desktop\\MCI\\MGST_SS_2324(2)\\Programmierübung II\\Programmieren3\\Programmieruebung_2_K_M_M\\data\\activities\\activity.csv", sep = ",")
     return df
 
 
@@ -53,7 +53,7 @@ def calc_powercurve(df):
     df_clean = df.dropna(subset = "PowerOriginal")
     array_best_effort = []
     array_time_window = []
-    for window in range(1200):
+    for window in range(1201):
         value = best_effort(df_clean, window)
         array_best_effort.append(value)
         array_time_window.append(window)
@@ -65,7 +65,7 @@ def best_effort(df, window):
     return value.max()
 
 
-ekg_df = ekg_read_txt()
+#ekg_df = ekg_read_txt()
 activity_df = activity_read_csv()
 #print(ekg_df)
 
@@ -73,7 +73,7 @@ activity_df = activity_read_csv()
 #plt.show()
 
 power_curve = calc_powercurve(activity_df)
-plt.plot(power_curve["Time_Window"], power_curve["Power"])
-plt.show()
+#plt.plot(power_curve["Time_Window"], power_curve["Power"])
+#plt.show()
 
 #best_effort(activity_df, 5)

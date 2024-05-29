@@ -19,7 +19,7 @@
     Nötige Pakete sind in der Text-Datei requirements.txt angeführt
     alle Pakete gleichzeitig installieren: pip install -r requirements.txt (in Komandozeile von Windows Powershell)
 
-### Verwenden des Codes
+### Verwenden des Codes 3_interaktiver_plot
 
     Navigieren in den richtigen Ordner cd "3_interaktiver_plot"
     Befehl: streamlit run "test_e.py" startet die App
@@ -28,3 +28,14 @@ Die App zeigt dann:
 * Tabellen Zeit in HF-Zonen, durchscnittliche Leistung in den HF-Zonen                     
 * durchschnittliche Leistung gesamt und die maximale Leistung
 * Diagram Leistung über die Zeit
+
+![Screenshot](data/screenshots/3_1.jpg)
+![Screenshot](data/screenshots/3_2.jpg)
+
+### Verwendung des Codes 4_eigene_Funktionen
+
+    Navigieren in den richtigen Ordner cd "4_eigene_Funktionen"
+    Befehl: streamlit run "test_e.py" startet die App
+    Die App zeigt dann die Powercurve mit den spezifischen Werten zu gewissen Zeiten
+
+![Screenshot](data/screenshots/4.jpg)
