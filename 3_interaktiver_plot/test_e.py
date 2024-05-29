@@ -32,10 +32,8 @@ def analyze_performance(df):
 # Streamlit App
 def main():
     st.title('Herzfrequenzanalyse')
-    dateipfad = (
-        "C:\\Users\\elisa\\Desktop\\MCI\\MGST_SS_2324(2)\\"
-        "Programmierübung II\\pandas\\3_pandas\\EGK_App\\data\\activities\\activity.csv"
-    )
+    dateipfad = ("data/activities/activity.csv", sep = ",")
+
     df = pd.read_csv(dateipfad)
     max_hr = st.sidebar.number_input("Bitte geben Sie die maximale Herzfrequenz ein:", value=0, step=1)
     analyze_button = st.sidebar.button("Analyse durchführen")

@@ -10,8 +10,7 @@ def seconds_to_mmss(seconds):
     return f"{minutes:02d}:{seconds:02d}"
 
 # Datei-Pfad
-file_path = "C:\\Users\\elisa\\Desktop\\MCI\\MGST_SS_2324(2)\\Programmierübung II\\Programmieren3\\Programmieruebung_2_K_M_M\\data\\activities\\activity.csv"
-    
+file_path = ("data/activities/activity.csv", sep = ',')	
 # Leistungsdaten laden
 df = pd.read_csv(file_path)
 
