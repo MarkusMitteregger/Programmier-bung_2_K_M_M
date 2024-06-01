@@ -39,17 +39,46 @@ st.image(image, caption=st.session_state.current_user if 'current_user' in st.se
 if selected_patient != "Wählen Sie einen Patienten aus":
     patient_data = a.Person.find_person_data_by_name(selected_patient)
     ekg_tests = patient_data.get("ekg_tests", [])
-    ekg_options = ["Wählen Sie einen Test aus"] + [f"Test-ID {ekg['id']}; Datum: {ekg['date']}" for ekg in ekg_tests]
-    
+
+    if ekg_tests:
+        ekg_options = ["Wählen Sie einen Test aus"] + [f"Test-ID {ekg['id']}; Datum: {ekg['date']}" for ekg in ekg_tests]
+    else:
+        ekg_options = ["Noch keine EKG-Daten vorhanden"]
+
     selected_ekg = st.selectbox("Wählen Sie einen EKG-Test aus", options=ekg_options)
-    
-    if selected_ekg != "Wählen Sie einen Test aus":
+
+    if selected_ekg != "Wählen Sie einen Test aus" and selected_ekg != "Noch keine EKG-Daten vorhanden":
         # Extrahiere die EKG-ID sicher
         ekg_id = int(selected_ekg.split(" ")[1].replace(";", ""))
         ekg_data = m.EKGdata.load_by_id(ekg_id)
-        
+
         if ekg_data:
-            st.write(f"Herzfrequenz: {ekg_data.heartrate:.2f} bpm")
+            st.write(f"Durchschnittliche Herzfrequenz: {ekg_data.heartrate:.2f} bpm")
             ekg_data.make_plot()
         else:
             st.write("Keine EKG-Daten gefunden.")
+
+    # Anlegen des Session State. Bild, wenn es kein Bild gibt'
+
+    # Überprüfen, ob ein tatsächlicher Patient ausgewählt wurde
+    if selected_ekg != "Wählen Sie einen Test aus":
+        st.session_state.current_ekg = selected_ekg
+
+        # Suchen des Ergebnislinks für den ausgewählten EKG-Test
+        ekg_id = int(selected_ekg.split(" ")[1].replace(";", ""))
+        result_link = None
+
+        # Durchlaufen der EKG-Tests des ausgewählten Patienten, um den Ergebnislink zu finden
+        for ekg_test in patient_data.get("ekg_tests", []):
+            if ekg_test["id"] == ekg_id:
+                result_link = ekg_test.get("result_link")
+                break
+
+        if result_link:
+            st.write(f"Link zu den EKG-Daten: {result_link}")
+        else:
+            st.write("Kein Link gefunden.")
+    else:
+        st.write("Kein EKG-Test ausgewählt.")
+
+    

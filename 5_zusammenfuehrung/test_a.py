@@ -17,7 +17,7 @@ class Person:
     
     
     @staticmethod
-    def load_person_data():
+    def load_person_data(arg=None):
         """Eine Funktion, die weiß, wo sich die Personendatenbank befindet und ein Dictionary mit den Personen zurückgibt."""
         with open("data/person_db.json", 'r') as file:
             person_data = json.load(file)

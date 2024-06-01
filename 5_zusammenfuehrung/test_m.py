@@ -1,48 +1,44 @@
 import json
 import pandas as pd
 import plotly.express as px
-import matplotlib.pyplot as plt
 import numpy as np
-from scipy.signal import find_peaks
 import streamlit as st
 import plotly.graph_objects as go
 
 class EKGdata:
-
-## Konstruktor der Klasse soll die Daten einlesen
-
+    # Constructor to initialize the class with the data
     def __init__(self, ekg_dict):
         self.id = ekg_dict["id"]
         self.date = ekg_dict["date"]
         self.data = ekg_dict["result_link"]
-        self.df = pd.read_csv(self.data, sep='\t', header=None, names=['Messwerte in mV','Zeit in ms',])
+        self.df = pd.read_csv(self.data, sep='\t', header=None, names=['Messwerte in mV', 'Zeit in ms'])
+        self.df = self.df.head(10000)  # Limit to the first 10,000 data points
         self.peaks = self.find_peaks(self.df["Messwerte in mV"].copy(), 340)   
         self.heartrate = self.calc_heartrate()
-        #self.max_heartrate = self.calc_max_heartrate()
-
+        self.max_heartrate = self.calc_max_heartrate()
 
     def make_plot(self):
-        # Erstellte einen Line Plot, der ersten 10000 Werte mit der Zeit auf der x-Achse
-        fig = px.line(self.df.head(10000), x="Zeit in ms", y="Messwerte in mV", title="EKG Plot")
+        # Create a line plot of the first 10,000 values with time on the x-axis
+        fig = px.line(self.df, x="Zeit in ms", y="Messwerte in mV", title="EKG Plot")
 
-        # Füge die Peaks hinzu
-        peaks_x = self.df["Zeit in ms"][self.peaks[:20]]
-        peaks_y = self.df["Messwerte in mV"][self.peaks[:20]]
+        # Add peaks to the plot
+        peaks_x = self.df["Zeit in ms"][self.peaks]
+        peaks_y = self.df["Messwerte in mV"][self.peaks]
         fig.add_trace(go.Scatter(x=peaks_x, y=peaks_y, mode='markers+text', name='Peaks', text=["R"]*len(peaks_x),
                                  textposition="top center", marker=dict(color='red', size=10)))
 
-        # Zeige das Plot in Streamlit an
+        # Display the plot in Streamlit
         st.plotly_chart(fig)
 
-    @staticmethod   # Decorator um die Methode als static zu kennzeichnen
+    @staticmethod
     def load_by_id(id):
-        file = open("data/person_db.json")
-        person_data = json.load(file)
-        for person in person_data:
-            for ekg_test in person["ekg_tests"]:
-                if ekg_test["id"] == id:
-                    return EKGdata(ekg_test)
-                else: continue
+        with open("data/person_db.json") as file:
+            person_data = json.load(file)
+            for person in person_data:
+                for ekg_test in person["ekg_tests"]:
+                    if ekg_test["id"] == id:
+                        return EKGdata(ekg_test)
+        return None
 
     def find_peaks(self, series, threshold, respacing_factor=5):
         """
@@ -75,27 +71,51 @@ class EKGdata:
                 peaks.append(index-respacing_factor)
 
         return peaks
+
+
     
     def calc_heartrate(self):
         timehr = np.array(self.df["Zeit in ms"][self.peaks])
-        t_puls = (timehr[1:] - timehr[:-1])
-        t_puls = np.delete(t_puls, np.where(t_puls < 0))
-        heartr = (1 / np.mean(t_puls[10:-10]))*60*1000    
-        return heartr
+        
+        if len(timehr) < 2:
+            raise ValueError("Nicht genügend Datenpunkte zur Berechnung der Herzfrequenz.")
+        
+        t_puls = np.diff(timehr)
+        
+        # Entferne negative oder unrealistische Intervalle
+        t_puls = t_puls[t_puls > 0]
+        
+        if len(t_puls) < 2:
+            raise ValueError("Nicht genügend valide Intervall zur Berechnung der Herzfrequenz.")
+        
+        # Optional: Mittlere 80% der Daten zur Berechnung verwenden
+        trimmed_t_puls = t_puls[int(len(t_puls) * 0.1) : int(len(t_puls) * 0.9)]
+        
+        heartrate = (1 / np.mean(trimmed_t_puls)) * 60 * 1000
+        
+        return heartrate
+
 
     def calc_max_heartrate(self):
+        if len(self.peaks) < 2:
+            return None  # Not enough data to calculate heart rate
+        
         timehr = np.array(self.df["Zeit in ms"][self.peaks])
-        t_puls = (timehr[1:] - timehr[:-1])
-        t_puls = np.delete(t_puls, np.where(t_puls < 0))
-        max_heartrate = (1 / np.min(t_puls[10:-10]))*60*1000
+        t_puls = np.diff(timehr)
+        
+        # Ensure all intervals are positive
+        t_puls = t_puls[t_puls > 0]
+        
+        if len(t_puls) == 0:
+            return None  # No valid intervals
+        
+        # Find the minimum interval to calculate the maximum heart rate
+        min_interval = np.min(t_puls)
+        max_heartrate = (1 / min_interval) * 60 * 1000  # Convert ms to minutes
         return max_heartrate
+
                 
 if __name__ == "__main__":
     ekg_1 = EKGdata.load_by_id(2)
     ekg_1.make_plot()
     print(ekg_1.heartrate)
-
-
-
-
-
