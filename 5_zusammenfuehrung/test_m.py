@@ -4,6 +4,8 @@ import plotly.express as px
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.signal import find_peaks
+import streamlit as st
+import plotly.graph_objects as go
 
 class EKGdata:
 
@@ -20,13 +22,17 @@ class EKGdata:
 
 
     def make_plot(self):
+        # Erstellte einen Line Plot, der ersten 10000 Werte mit der Zeit auf der x-Achse
+        fig = px.line(self.df.head(10000), x="Zeit in ms", y="Messwerte in mV", title="EKG Plot")
 
-        # Erstellte einen Line Plot, der ersten 2000 Werte mit der Zeit aus der x-Achse
-        #self.fig = px.line(self.df.head(2000), x="Zeit in ms", y="Messwerte in mV")
-        #return self.fig 
-        plt.plot(self.df["Zeit in ms"][:10000], self.df["Messwerte in mV"][:10000])
-        plt.scatter(self.df["Zeit in ms"][self.peaks[:20]], self.df["Messwerte in mV"][self.peaks[:20]], marker = "$R$", color = "red")
-        plt.show()
+        # Füge die Peaks hinzu
+        peaks_x = self.df["Zeit in ms"][self.peaks[:20]]
+        peaks_y = self.df["Messwerte in mV"][self.peaks[:20]]
+        fig.add_trace(go.Scatter(x=peaks_x, y=peaks_y, mode='markers+text', name='Peaks', text=["R"]*len(peaks_x),
+                                 textposition="top center", marker=dict(color='red', size=10)))
+
+        # Zeige das Plot in Streamlit an
+        st.plotly_chart(fig)
 
     @staticmethod   # Decorator um die Methode als static zu kennzeichnen
     def load_by_id(id):
