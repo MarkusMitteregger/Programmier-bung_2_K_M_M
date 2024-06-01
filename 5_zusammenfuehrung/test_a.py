@@ -82,5 +82,5 @@ class Person:
     
 
 
-P_3 = Person.load_by_id(1)
-print(P_3.__dict__)
+#P_3 = Person.load_by_id(1)
+#print(Person.get_person_list(person_data=Person.load_person_data()))

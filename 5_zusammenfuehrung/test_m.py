@@ -84,11 +84,6 @@ class EKGdata:
         max_heartrate = (1 / np.min(t_puls[10:-10]))*60*1000
         return max_heartrate
                 
-                
-
-#EKG_1 = EKGdata(ekg_dict1)
-#EKG_1.make_plot()
-
 
 ekg_1 = EKGdata.load_by_id(2)
 ekg_1.make_plot()
