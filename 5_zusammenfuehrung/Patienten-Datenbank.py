@@ -1,5 +1,4 @@
 import streamlit as st
-import read_data # Ergänzen Sie Ihr eigenes Modul
 from PIL import Image
 import test_a as a
 import test_m as m
@@ -27,7 +26,7 @@ if 'picture_path' not in st.session_state:
 if selected_patient != "Wählen Sie einen Patienten aus":
     st.session_state.current_user = selected_patient
     # Suche den Pfad zum Bild, aber nur wenn der Name bekannt ist
-    st.session_state.picture_path = read_data.find_person_data_by_name(st.session_state.current_user)["picture_path"]
+    st.session_state.picture_path = a.Person.find_person_data_by_name(st.session_state.current_user)["picture_path"]
 else:
     st.session_state.picture_path = 'data/pictures/Patientendatenbank.jpg'
     st.session_state.current_user = ""
@@ -38,7 +37,7 @@ st.image(image, caption=st.session_state.current_user if 'current_user' in st.se
 
 # Prüfen, ob ein Patient ausgewählt wurde und EKG-Tests laden
 if selected_patient != "Wählen Sie einen Patienten aus":
-    patient_data = read_data.find_person_data_by_name(selected_patient)
+    patient_data = a.Person.find_person_data_by_name(selected_patient)
     ekg_tests = patient_data.get("ekg_tests", [])
     ekg_options = ["Wählen Sie einen Test aus"] + [f"Test-ID {ekg['id']}; Datum: {ekg['date']}" for ekg in ekg_tests]
     
