@@ -5,8 +5,6 @@ from PIL import Image
 # Eine Überschrift der ersten Ebene
 st.write("# PATIENTEN-DATENBANK")
 
-# Eine Überschrift der zweiten Ebene
-st.write("## Versuchsperson auswählen")
 
 # Legen Sie eine neue Liste mit den Personennamen an indem Sie ihre 
 # Funktionen aufrufen
@@ -16,8 +14,7 @@ person_names = read_data.get_person_list(person_dict)
 # person_names = read_data.get_person_list()
 
 # Nutzen Sie ihre neue Liste anstelle der hard-gecodeten Lösung
-st.session_state.current_user = st.selectbox(
-    'Versuchsperson',
+st.session_state.current_user = st.selectbox("Wählen Sie einen Patienten aus",
     options = person_names, key="sbVersuchsperson")
 
     
@@ -37,10 +34,18 @@ if st.session_state.current_user in person_names:
 image = Image.open(st.session_state.picture_path)
 st.image(image, caption=st.session_state.current_user)
 
+# Seitenleiste für Navigation
+st.sidebar.title("Navigation")
+page = st.sidebar.radio("Gehe zu", ["Patienten-Datenbank", "EKG-Tests"])
 
-
-
-
-
-
-
+if page == "EKG-Tests":
+    # Legen Sie eine neue Liste mit den EKGs an indem Sie ihre 
+# Funktionen aufrufen
+    person_dict = read_data.load_person_data()
+    print(person_dict)
+        
+        # Nutzen Sie ihre neue Liste anstelle der hard-gecodeten Lösung
+    st.session_state.current_user = st.selectbox(
+        'EKG',
+        options = [1,2,3])
+    st.write("Hier kommt die EKG-Test Seite")
