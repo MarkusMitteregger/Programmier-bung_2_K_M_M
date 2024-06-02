@@ -95,13 +95,12 @@ if person_instance:
             avg_performance_in_zones = avg_performance_in_zones.round().astype(int)
             return avg_performance_in_zones
 
-        st.title('Herzfrequenzanalyse')
         if intervall_tests["id"] == intervall_test_id:
             dateipfad = intervall_tests.get("result_link")
 
             df = pd.read_csv(dateipfad)
             max_hr = person_instance.max_hr
-            analyze_button = st.button("Analyse durchführen")
+            analyze_button = st.button("Herzfrequenzanalyse durchführen")
 
             if analyze_button:
                 st.write(max_hr)
