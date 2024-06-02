@@ -59,6 +59,7 @@ class Person:
         self.picture_path = person_dict["picture_path"]
         self.id = person_dict["id"]
         self.ekg_tests = person_dict["ekg_tests"]
+        self.intervall_tests = person_dict["intervall_tests"]   
 
     @staticmethod
     def load_by_id(person_id):
@@ -78,6 +79,7 @@ class Person:
             self.picture_path = person_dict["picture_path"]
             self.id = person_dict["id"]
             self.ekg_tests = person_dict["ekg_tests"]
+            self.intervall_tests = person_dict["intervall_tests"]
 
     
 
