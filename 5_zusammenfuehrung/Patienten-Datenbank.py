@@ -1,7 +1,7 @@
 import streamlit as st
 from PIL import Image
-import test_a as a
-import test_m as m
+from person_class import Person as p
+from ekg_class import EKGdata as ekg
 import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
@@ -10,10 +10,10 @@ import plotly.express as px
 st.write("# PATIENTEN-DATENBANK")
 
 # Laden Sie die Personendaten
-person_data = a.Person.load_person_data()
+person_data = p.load_person_data()
 
 # Legen Sie eine neue Liste mit den Personennamen an
-patients = a.Person.get_person_list(person_data)
+patients = p.get_person_list(person_data)
 patients.insert(0, "Wählen Sie einen Patienten aus")
 
 # Nutzen Sie ihre neue Liste anstelle der hard-gecodeten Lösung
@@ -26,9 +26,9 @@ if 'picture_path' not in st.session_state:
 # Überprüfen, ob ein tatsächlicher Patient ausgewählt wurde
 if selected_patient != "Wählen Sie einen Patienten aus":
     st.session_state.current_user = selected_patient
-    person_data_dict = a.Person.find_person_data_by_name(st.session_state.current_user)
+    person_data_dict = p.find_person_data_by_name(st.session_state.current_user)
     st.session_state.picture_path = person_data_dict["picture_path"]
-    person_instance = a.Person(person_data_dict)
+    person_instance = p(person_data_dict)
 else:
     st.session_state.picture_path = 'data/pictures/Patientendatenbank.jpg'
     st.session_state.current_user = ""
@@ -51,7 +51,7 @@ if person_instance:
 
     if selected_ekg != "Wählen Sie einen Test aus" and selected_ekg != "Noch keine EKG-Daten vorhanden":
         ekg_id = int(selected_ekg.split(" ")[1].replace(";", ""))
-        ekg_data = m.EKGdata.load_by_id(ekg_id)
+        ekg_data = ekg.load_by_id(ekg_id)
 
         if ekg_data:
             st.write(f"Durchschnittliche Herzfrequenz: {ekg_data.heartrate:.2f} bpm")

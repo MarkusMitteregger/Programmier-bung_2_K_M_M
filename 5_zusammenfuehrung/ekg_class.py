@@ -16,6 +16,8 @@ class EKGdata:
         self.peaks = self.find_peaks(self.df["Messwerte in mV"].copy(), 340)   
         self.heartrate = self.calc_heartrate()
         self.max_heartrate = self.calc_max_heartrate()
+        self.heartrate_time = self.calc_heartrate_time()
+
 
     def make_plot(self):
         # Create a line plot of the first 10,000 values with time on the x-axis
@@ -113,5 +115,32 @@ class EKGdata:
         min_interval = np.min(t_puls)
         max_heartrate = (1 / min_interval) * 60 * 1000  # Convert ms to minutes
         return max_heartrate
+    
+    def calc_heartrate_time(self):
+        if len(self.peaks) < 2:
+            return None  # Not enough data to calculate heart rate
+        
+        timehr = np.array(self.df["Zeit in ms"][self.peaks])
+        t_puls = np.diff(timehr)
+        
+        # Ensure all intervals are positive
+        t_puls = t_puls[t_puls > 0]
+
+        if len(t_puls) == 0:
+            return None  # No valid intervals
+        
+        heartrate = (1 / t_puls) * 60 * 1000
+        
+        #Speichern der Daten in ei  DataFrame
+        data = {"Heartrate" : heartrate,
+                "Time in s" : timehr[:-1]}
+        heartrate = pd.DataFrame(data)
+        
+        return heartrate
 
                 
+if __name__ == "__main__":
+    ekg_1 = EKGdata.load_by_id(4)
+    ekg_1.make_plot()
+    print(ekg_1.max_heartrate)
+    print(ekg_1.heartrate)
