@@ -5,7 +5,15 @@ from ekg_class import EKGdata as ekg
 import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
-from B_interaktiver_plot import performance_hr_analysis as pha
+import os
+import sys
+import inspect
+
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+sys.path.insert(0, parentdir) 
+
+from B_interaktiver_plot import performance_hr_analysis as pha 
 from C_eigene_Funktionen import calc_powercurve as cp
 
 # Eine Überschrift der ersten Ebene
