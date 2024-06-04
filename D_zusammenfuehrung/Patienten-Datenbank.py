@@ -13,6 +13,7 @@ currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir) 
 
+from A_my_streamlit import read_data as rd
 from B_interaktiver_plot import performance_hr_analysis as pha 
 from C_eigene_Funktionen import calc_powercurve as cp
 
@@ -46,7 +47,7 @@ else:
 
 # Öffne das Bild und zeige es an
 image = Image.open(st.session_state.picture_path)
-st.image(image, caption=st.session_state.current_user if 'current_user' in st.session_state else "")
+st.image(image, caption=st.session_state.current_user if 'current_user' in st.session_state else "" )
 
 # Prüfen, ob ein Patient ausgewählt wurde und EKG-Tests laden
 if person_instance:
@@ -62,8 +63,6 @@ if person_instance:
     if selected_ekg != "Wählen Sie einen Test aus" and selected_ekg != "Noch keine EKG-Daten vorhanden":
         ekg_id = int(selected_ekg.split(" ")[1].replace(";", ""))
         ekg_data = ekg.load_by_id(ekg_id)
-
-        
 
         if ekg_data:
             st.write(f"Durchschnittliche Herzfrequenz: {ekg_data.heartrate:.2f} bpm")

@@ -12,8 +12,9 @@ class EKGdata:
         self.date = ekg_dict["date"]
         self.data = ekg_dict["result_link"]
         self.df = pd.read_csv(self.data, sep='\t', header=None, names=['Messwerte in mV', 'Zeit in ms'])
-        self.df = self.df.head(10000)  # Limit to the first 10,000 data points
-        self.peaks = self.find_peaks(self.df["Messwerte in mV"].copy(), 340)   
+        self.df_plot = self.df.head(10000)  # Limit to the first 10,000 data points
+        self.peaks = self.find_peaks(self.df["Messwerte in mV"].copy(), 340)
+        self.peaks_plot = self.find_peaks(self.df_plot["Messwerte in mV"].copy(), 340)   
         self.heartrate = self.calc_heartrate()
         self.max_heartrate = self.calc_max_heartrate()
         self.heartrate_time = self.calc_heartrate_time()
@@ -21,12 +22,13 @@ class EKGdata:
 
     def make_plot(self):
         # Create a line plot of the first 10,000 values with time on the x-axis
-        fig = px.line(self.df, x="Zeit in ms", y="Messwerte in mV", title="EKG Plot")
+        fig = px.line(self.df_plot, x="Zeit in ms", y="Messwerte in mV", title="EKG Plot")
         fig2 = px.line(self.heartrate_time, x="Time in s", y="Heartrate", title="Herzfrequenz über die Zeit")
+        
 
         # Add peaks to the plot
-        peaks_x = self.df["Zeit in ms"][self.peaks]
-        peaks_y = self.df["Messwerte in mV"][self.peaks]
+        peaks_x = self.df_plot["Zeit in ms"][self.peaks_plot]
+        peaks_y = self.df_plot["Messwerte in mV"][self.peaks_plot]
         fig.add_trace(go.Scatter(x=peaks_x, y=peaks_y, mode='markers+text', name='Peaks', text=["R"]*len(peaks_x),
                                  textposition="top center", marker=dict(color='red', size=10)))
 
@@ -135,14 +137,14 @@ class EKGdata:
         
         #Speichern der Daten in ei  DataFrame
         data = {"Heartrate" : heartrate,
-                "Time in s" : timehr[:-1]}
+                "Time in s" : timehr[:len(heartrate)] / 1000}
         heartrate = pd.DataFrame(data)
         
         return heartrate
 
                 
 if __name__ == "__main__":
-    ekg_1 = EKGdata.load_by_id(4)
+    ekg_1 = EKGdata.load_by_id(2)
     ekg_1.make_plot()
     print(ekg_1.max_heartrate)
     print(ekg_1.heartrate)
