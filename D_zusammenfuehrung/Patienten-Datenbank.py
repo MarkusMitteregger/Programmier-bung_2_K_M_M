@@ -5,6 +5,16 @@ from ekg_class import EKGdata as ekg
 import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
+import os
+import sys
+import inspect
+
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+sys.path.insert(0, parentdir) 
+
+from B_interaktiver_plot import performance_hr_analysis as pha 
+from C_eigene_Funktionen import calc_powercurve as cp
 
 # Eine Überschrift der ersten Ebene
 st.write("# PATIENTEN-DATENBANK")
@@ -63,8 +73,7 @@ if person_instance:
             st.write("Keine EKG-Daten gefunden.")
 
 
-        
-
+    
     # Prüfen, ob ein Patient ausgewählt wurde und Leistungstest laden
     intervall_tests = person_instance.intervall_tests
 
@@ -78,28 +87,6 @@ if person_instance:
     if selected_intervall_test != "Wählen Sie einen Test aus" and selected_intervall_test != "Noch kein Leistungstest vorhanden":
         intervall_test_id = int(selected_intervall_test.split(" ")[1].replace(";", ""))
         
-        def get_heart_rate_zone(heart_rate, max_hr):
-            if heart_rate < 0.6 * max_hr:
-                return 'Zone1'
-            elif heart_rate < 0.7 * max_hr:
-                return 'Zone2'
-            elif heart_rate < 0.8 * max_hr:
-                return 'Zone3'
-            elif heart_rate < 0.9 * max_hr:
-                return 'Zone4'
-            else:
-                return 'Zone5'
-
-        def analyze_heart_rate(df, max_hr):
-            df['HeartRateZone'] = df['HeartRate'].apply(lambda x: get_heart_rate_zone(x, max_hr))
-            time_in_zones = df.groupby('HeartRateZone')['Duration'].sum()
-            time_in_zones = time_in_zones.apply(lambda x: '{:02}:{:02}'.format(int(x) // 60, int(x) % 60))
-            return time_in_zones
-
-        def analyze_performance(df):
-            avg_performance_in_zones = df.groupby('HeartRateZone')['PowerOriginal'].mean()
-            avg_performance_in_zones = avg_performance_in_zones.round().astype(int)
-            return avg_performance_in_zones
 
         if intervall_tests["id"] == intervall_test_id:
             dateipfad = intervall_tests.get("result_link")
@@ -110,8 +97,8 @@ if person_instance:
 
             if analyze_button:
                 st.write(max_hr)
-                time_in_zones = analyze_heart_rate(df, max_hr)
-                avg_performance_in_zones = analyze_performance(df)
+                time_in_zones = pha.analyze_heart_rate(df, max_hr)
+                avg_performance_in_zones = pha.analyze_performance(df)
                 avg_performance_generel = df['PowerOriginal'].mean().round().astype(int)
                 max_performance_generel = df['PowerOriginal'].max().round().astype(int)
 
@@ -149,49 +136,22 @@ if person_instance:
 
             if powercurve_button:
 
-                def activity_read_csv():
-                    df = pd.read_csv(dateipfad)
-                    return df
-
-                def best_effort(df, window):
-                    value = df["PowerOriginal"].rolling(window).mean()
-                    return value.max()
-                
-                def calc_powercurve(df):
-                    df_clean = df.dropna(subset = "PowerOriginal")
-                    array_best_effort = []
-                    array_time_window = []
-                    for window in range(1201):
-                        value = best_effort(df_clean, window)
-                        array_best_effort.append(value)
-                        array_time_window.append(window)
-                    powercurve_df = pd.DataFrame({"Power" : array_best_effort, "Time_Window" : array_time_window})
-                    return powercurve_df
-                
                 # Funktion zur Konvertierung von Sekunden in mm:ss Format
                 def seconds_to_mmss(seconds):
                     minutes, seconds = divmod(seconds, 60)
                     return f"{minutes:02d}:{seconds:02d}"
 
-                # Datei-Pfad
-                file_path = ("data/activities/activity.csv")	
-                # Leistungsdaten laden
-                df = pd.read_csv(file_path)
-
                 # Berechnet die Powercurve
-                powercurve = calc_powercurve(df)
+                powercurve = cp.calc_powercurve(df)
 
                 # Zeitfenster in mm:ss Format konvertieren
                 powercurve['Time_Window_mmss'] = powercurve['Time_Window'].apply(seconds_to_mmss)
 
-                # Definieren der gewünschten Zeitpunkte in Sekunden
-                desired_times = [1, 30, 60, 100, 300, 600, 1200]
-
                 # Zeitpunkte in mm:ss Format konvertieren
-                xticks_mmss = [seconds_to_mmss(t) for t in desired_times]
+                xticks_mmss = [seconds_to_mmss(t) for t in cp.desired_times]
 
                 # Filter powercurve für Marker-Daten
-                marker_data = powercurve[powercurve['Time_Window'].isin(desired_times)]
+                marker_data = powercurve[powercurve['Time_Window'].isin(cp.desired_times)]
 
                 st.subheader('Powercurve')
 
