@@ -21,7 +21,7 @@
 
 ### Verwenden des Codes 3_interaktiver_plot
 
-    mit dem Befehl: streamlit run 3_interaktiver_plot/main3.py startet die App
+    mit dem Befehl: streamlit run .\3_interaktiver_plot\main3.py startet die App
     In der App links oben Eingabefenster für die maximale Herzfrequenz und der Button "Analyse starten" zum Starten 
 Die App zeigt dann: 
 * Tabellen Zeit in HF-Zonen, durchscnittliche Leistung in den HF-Zonen                     
@@ -33,7 +33,7 @@ Die App zeigt dann:
 
 ### Verwendung des Codes 4_eigene_Funktionen
 
-    mit dem Befehl: streamlit run 4_eigene_Funktionen/main4.py startet die App
+    mit dem Befehl: streamlit run .\4_eigene_Funktionen\main4.py startet die App
     Die App zeigt dann die Powercurve mit den spezifischen Werten zu gewissen Zeiten
 
 ![Screenshot](data/screenshots/4.jpg)
