@@ -1,4 +1,4 @@
-import test_m as tm 
+import calc_powercurve as pc
 import pandas as pd
 import streamlit as st
 import plotly.express as px
@@ -15,7 +15,7 @@ file_path = ("data/activities/activity.csv")
 df = pd.read_csv(file_path)
 
 # Berechnet die Powercurve
-powercurve = tm.calc_powercurve(df)
+powercurve = pc.calc_powercurve(df)
 
 # Zeitfenster in mm:ss Format konvertieren
 powercurve['Time_Window_mmss'] = powercurve['Time_Window'].apply(seconds_to_mmss)
