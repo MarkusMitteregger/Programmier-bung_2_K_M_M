@@ -34,7 +34,7 @@ if st.session_state.current_user in person_names:
 # ...
 
 # Öffne das Bild und Zeige es an
-image = Image.open("../" + st.session_state.picture_path)
+image = Image.open(st.session_state.picture_path)
 st.image(image, caption=st.session_state.current_user)
 
 

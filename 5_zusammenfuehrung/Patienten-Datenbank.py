@@ -53,11 +53,17 @@ if person_instance:
         ekg_id = int(selected_ekg.split(" ")[1].replace(";", ""))
         ekg_data = ekg.load_by_id(ekg_id)
 
+        
+
         if ekg_data:
             st.write(f"Durchschnittliche Herzfrequenz: {ekg_data.heartrate:.2f} bpm")
             ekg_data.make_plot()
+        
         else:
             st.write("Keine EKG-Daten gefunden.")
+
+
+        
 
     # Prüfen, ob ein Patient ausgewählt wurde und Leistungstest laden
     intervall_tests = person_instance.intervall_tests

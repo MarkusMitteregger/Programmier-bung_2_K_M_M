@@ -22,6 +22,7 @@ class EKGdata:
     def make_plot(self):
         # Create a line plot of the first 10,000 values with time on the x-axis
         fig = px.line(self.df, x="Zeit in ms", y="Messwerte in mV", title="EKG Plot")
+        fig2 = px.line(self.heartrate_time, x="Time in s", y="Heartrate", title="Herzfrequenz über die Zeit")
 
         # Add peaks to the plot
         peaks_x = self.df["Zeit in ms"][self.peaks]
@@ -31,6 +32,7 @@ class EKGdata:
 
         # Display the plot in Streamlit
         st.plotly_chart(fig)
+        st.plotly_chart(fig2)
 
     @staticmethod
     def load_by_id(id):
