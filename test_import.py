@@ -1,0 +1,3 @@
+from B_interaktiver_plot import performance_hr_analysis 
+
+performance_hr_analysis.analyze_heart_rate(df, max_hr)
