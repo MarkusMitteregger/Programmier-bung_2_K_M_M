@@ -41,8 +41,12 @@ Die App zeigt dann:
 ### Verwendung des Codes D_zusammenführung
     mit dem Befehl streamlit run .\D_zusammenfuehrung\Patienten-Datenbank.py startet die App
 Die App zeigt dann: 
-* unter "Wählen Sie einen Patienten aus" ein Dropdown Menü, zum auswählen einer Person --> Das Bild des Patienten und der Name werden nach der Auswahl angezeigt.                     
+* unter "Wählen Sie einen Patienten aus" ein Dropdown Menü, zum auswählen einer Person --> Das Bild des Patienten und der Name werden nach der Auswahl angezeigt.    
+![Screenshot](data/screenshots/D1.jpg)            
+![Screenshot](data/screenshots/D2.jpg)     
 * Darunter ist "Wählen Sie einen EKG-Test aus", mit einem Dropdown Menü zum Auswählen der verfügbaren Tests. Der ausgewählte Test wird nach der Auswahl angezeigt, ebenso wie die durchschnittliche Herzfrequenz und die Herzfrequenzkurve.
+![Screenshot](data/screenshots/D3.jpg)
 * Darunter gibt es noch die Möglichkeit "Wählen Sie einen Leistungstest aus".
 --> Ist ein Test vorhanden, so kann man einen auswählen und anschließend entscheiden, ob man die Herzfrequenzanalyse durchführen, oder die Powercurve anzeigen will.
 --> Ist kein Test vorhanden wird "Noch kein Leistungstest vorhanden" angezeigt.
+![Screenshot](data/screenshots/D4.jpg)
