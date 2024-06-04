@@ -73,8 +73,7 @@ if person_instance:
             st.write("Keine EKG-Daten gefunden.")
 
 
-        
-
+    
     # Prüfen, ob ein Patient ausgewählt wurde und Leistungstest laden
     intervall_tests = person_instance.intervall_tests
 
@@ -141,11 +140,6 @@ if person_instance:
                 def seconds_to_mmss(seconds):
                     minutes, seconds = divmod(seconds, 60)
                     return f"{minutes:02d}:{seconds:02d}"
-
-                # Datei-Pfad
-                #file_path = ("data/activities/activity.csv")	
-                # Leistungsdaten laden
-                #df = pd.read_csv(file_path)
 
                 # Berechnet die Powercurve
                 powercurve = cp.calc_powercurve(df)
