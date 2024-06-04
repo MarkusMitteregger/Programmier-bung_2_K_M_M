@@ -147,10 +147,11 @@ if person_instance:
                 powercurve['Time_Window_mmss'] = powercurve['Time_Window'].apply(seconds_to_mmss)
 
                 # Zeitpunkte in mm:ss Format konvertieren
-                xticks_mmss = [seconds_to_mmss(t) for t in cp.desired_times]
+                desired_times = [1, 30, 60, 100, 300, 600, 1200]
+                xticks_mmss = [seconds_to_mmss(t) for t in desired_times]
 
                 # Filter powercurve für Marker-Daten
-                marker_data = powercurve[powercurve['Time_Window'].isin(cp.desired_times)]
+                marker_data = powercurve[powercurve['Time_Window'].isin(desired_times)]
 
                 st.subheader('Powercurve')
 
