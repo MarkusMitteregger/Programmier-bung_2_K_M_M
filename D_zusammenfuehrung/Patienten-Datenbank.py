@@ -13,7 +13,7 @@ currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir) 
 
-from A_my_streamlit import read_data as rd
+#from A_my_streamlit import read_data as rd
 from B_interaktiver_plot import performance_hr_analysis as pha 
 from C_eigene_Funktionen import calc_powercurve as cp
 
