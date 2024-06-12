@@ -18,6 +18,7 @@ class EKGdata:
         self.heartrate = self.calc_heartrate()
         self.max_heartrate = self.calc_max_heartrate()
         self.heartrate_time = self.calc_heartrate_time()
+        self.duration = self.df["Zeit in ms"][len(self.df["Zeit in ms"]) - 1] / 1000
 
 
     def make_plot(self):
@@ -142,9 +143,23 @@ class EKGdata:
         
         return heartrate
 
+    def calc_hfr(self):
+        if len(self.peaks) < 2:
+            return None  # Not enough data to calculate heart rate
+        
+        timehr = np.array(self.df["Zeit in ms"][self.peaks])
+        t_puls = np.diff(timehr)
+        
+        # Ensure all intervals are positive
+        t_puls = t_puls[t_puls > 0]
+
+        if len(t_puls) == 0:
+            return None  # No valid intervals
+        
+        hvr = (1 / np.std(t_puls)) * 60000
+
+        return hvr
+
                 
 if __name__ == "__main__":
     ekg_1 = EKGdata.load_by_id(2)
-    ekg_1.make_plot()
-    print(ekg_1.max_heartrate)
-    print(ekg_1.heartrate)
